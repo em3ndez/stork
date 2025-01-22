@@ -1,19 +1,29 @@
-Stork by Fizzed
-=======================================
+# Stork by Fizzed
 
-[![Build Status](https://travis-ci.org/fizzed/stork.svg?branch=master)](https://travis-ci.org/fizzed/stork)
-[![Build status](https://ci.appveyor.com/api/projects/status/1yv9d52o4lshaawp/branch/master?svg=true)](https://ci.appveyor.com/project/jjlauer/stork/branch/master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.fizzed/stork/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.fizzed/stork)
+[![Maven Central](https://img.shields.io/maven-central/v/com.fizzed/stork?color=blue&style=flat-square)](https://mvnrepository.com/artifact/com.fizzed/stork)
 
-[Fizzed, Inc.](http://fizzed.com) (Follow on Twitter: [@fizzed_inc](http://twitter.com/fizzed_inc))
+## Automated Testing
 
-## Sponsored by
+The following Java versions and platforms are tested using GitHub workflows:
 
-Stork is proudly sponsored by <a href="https://www.greenback.com">Greenback</a>.  We love the service and think you would too.
+[![Java 8](https://img.shields.io/github/actions/workflow/status/fizzed/stork/java8.yaml?branch=master&label=Java%208&style=flat-square)](https://github.com/fizzed/stork/actions/workflows/java8.yaml)
+[![Java 11](https://img.shields.io/github/actions/workflow/status/fizzed/stork/java11.yaml?branch=master&label=Java%2011&style=flat-square)](https://github.com/fizzed/stork/actions/workflows/java11.yaml)
+[![Java 17](https://img.shields.io/github/actions/workflow/status/fizzed/stork/java17.yaml?branch=master&label=Java%2017&style=flat-square)](https://github.com/fizzed/stork/actions/workflows/java17.yaml)
+[![Java 21](https://img.shields.io/github/actions/workflow/status/fizzed/stork/java21.yaml?branch=master&label=Java%2021&style=flat-square)](https://github.com/fizzed/stork/actions/workflows/java21.yaml)
 
-<a href="https://www.greenback.com?utm_source=github.com&utm_medium=sponsorship&utm_campaign=fizzed-stork" title="Greenback - Expenses made simple"><img src="https://www.greenback.com/assets/images/logo-greenback.png" height="48" width="166" alt="Greenback"></a>
+[![Linux x64](https://img.shields.io/github/actions/workflow/status/fizzed/stork/java11.yaml?branch=master&label=Linux%20x64&style=flat-square)](https://github.com/fizzed/stork/actions/workflows/java11.yaml)
+[![MacOS arm64](https://img.shields.io/github/actions/workflow/status/fizzed/stork/macos-arm64.yaml?branch=master&label=MacOS%20arm64&style=flat-square)](https://github.com/fizzed/stork/actions/workflows/macos-arm64.yaml)
+[![Windows x64](https://img.shields.io/github/actions/workflow/status/fizzed/stork/windows-x64.yaml?branch=master&label=Windows%20x64&style=flat-square)](https://github.com/fizzed/stork/actions/workflows/windows-x64.yaml)
 
-<a href="https://www.greenback.com?utm_source=github.com&utm_medium=sponsorship&utm_campaign=fizzed-stork" title="Greenback - Expenses made simple">More engineering. Less paperwork. Expenses made simple.</a>
+The following platforms are tested using the [Fizzed, Inc.](http://fizzed.com) build system:
+
+[![Linux arm64](https://img.shields.io/badge/Linux%20arm64-passing-green)](buildx-results.txt)
+[![Linux riscv64](https://img.shields.io/badge/Linux%20riscv64-passing-green)](buildx-results.txt)
+[![Linux MUSL x64](https://img.shields.io/badge/Linux%20MUSL%20x64-passing-green)](buildx-results.txt)
+[![MacOS x64](https://img.shields.io/badge/MacOS%20x64-passing-green)](buildx-results.txt)
+[![Windows arm64](https://img.shields.io/badge/Windows%20arm64-passing-green)](buildx-results.txt)
+[![FreeBSD x64](https://img.shields.io/badge/FreeBSD%20x64-passing-green)](buildx-results.txt)
+[![OpenBSD x64](https://img.shields.io/badge/OpenBSD%20x64-passing-green)](buildx-results.txt)
 
 ## Overview
 
@@ -28,24 +38,40 @@ and securely run your app in any environment -- be it Docker, Rkt, LXD, or
 traditional systems.  There are 3 main Stork components that you can pick and
 choose from to help with your app:
 
- - [stork-launcher](#stork-launcher) will generate well-tested, rock solid, secure
-   launcher scripts from a yaml configuration file for either console or daemon/service
-   JVM apps. The generated launchers will run your app the same way regardless of whether
-   running within a container or numerous different operating systems.
+- [stork-launcher](#stork-launcher) will generate well-tested, rock solid, secure
+  launcher scripts from a yaml configuration file for either console or daemon/service
+  JVM apps. The generated launchers will run your app the same way regardless of whether
+  running within a container or numerous different operating systems.
 
- - [stork-assembly](#stork-assembly) will assemble your JVM app into a standard,
-   well-defined [canonical layout](docs/CANONICAL_LAYOUT.md) as a tarball ready
-   for universal distribution or deployment.  Regardless of whether your user
-   is on Linux, Windows, OSX, *BSD, etc., our tarball will include everything
-   for your user to be happy.
+- [stork-assembly](#stork-assembly) will assemble your JVM app into a standard,
+  well-defined [canonical layout](docs/CANONICAL_LAYOUT.md) as a tarball ready
+  for universal distribution or deployment.  Regardless of whether your user
+  is on Linux, Windows, OSX, *BSD, etc., our tarball will include everything
+  for your user to be happy.
 
- - [stork-deploy](#stork-deploy) will rapidly and securely deploy your assembly
-   via SSH into a versioned directory structure to various operating systems.
-   It will handle restarting daemons, use strict user/group permissions, and verify
-   the deploy worked.  Power users can combine with [Blaze](https://github.com/fizzed/blaze)
-   for even more advanced deploys.
+- [stork-deploy](#stork-deploy) will rapidly and securely deploy your assembly
+  via SSH into a versioned directory structure to various operating systems.
+  It will handle restarting daemons, use strict user/group permissions, and verify
+  the deploy worked.  Power users can combine with [Blaze](https://github.com/fizzed/blaze)
+  for even more advanced deploys.
 
 [Using Stork to deploy a production Ninja Framework app](http://fizzed.com/blog/2015/01/using-stork-deploy-production-ninja-framework-app)
+
+## Sponsorship & Support
+
+![](https://cdn.fizzed.com/github/fizzed-logo-100.png)
+
+Project by [Fizzed, Inc.](http://fizzed.com) (Follow on Twitter: [@fizzed_inc](http://twitter.com/fizzed_inc))
+
+**Developing and maintaining opensource projects requires significant time.** If you find this project useful or need
+commercial support, we'd love to chat. Drop us an email at [ping@fizzed.com](mailto:ping@fizzed.com)
+
+Project sponsors may include the following benefits:
+
+- Priority support (outside of Github)
+- Feature development & roadmap
+- Priority bug fixes
+- Privately hosted continuous integration tests for their unique edge or use cases
 
 ## Example
 
@@ -73,19 +99,7 @@ Or you can build a Docker image:
     docker build -t stork-demo-hellod .
     docker run -it stork-demo-hellod
 
-## Sponsoring development? Commercial support? Devops consulting?
-
-Maintaining Stork takes a significant amount of time and resources.  If you're
-interested in sponsoring Stork, funding new features, or are looking to take
-your devops to the next level, please [reach out to us @ Fizzed, Inc.](http://fizzed.com/contact)
-
-<a href="http://fizzed.com/contact" title="Fizzed"><img src="http://fizzed.com/assets/mfizz/img/logo-new.300x210.png" width="150" height="105" alt="Fizzed"></a>
-
 ## Usage
-
-### Command-line
-
-https://github.com/fizzed/stork/releases/download/v3.0.0/stork-3.0.0.tar.gz
 
 ### Maven plugin
 
@@ -95,19 +109,11 @@ https://github.com/fizzed/stork/releases/download/v3.0.0/stork-3.0.0.tar.gz
         <plugin>
             <groupId>com.fizzed</groupId>
             <artifactId>stork-maven-plugin</artifactId>
-            <version>3.0.0</version>
+            <version>3.2.0</version>
             <!-- configuration / execution (see below) -->
         </plugin>
     </plugins>
 </build>
-```
-
-### Gradle Plugin (to be released soon)
-```groovy
-plugins {
-  id "com.fizzed.stork" version "x.x.x"
-}
-// configuration / execution (see below)
 ```
 
 ## Why not just create my own script?
@@ -191,7 +197,7 @@ Maven
         <plugin>
             <groupId>com.fizzed</groupId>
             <artifactId>stork-maven-plugin</artifactId>
-            <version>3.0.0</version>
+            <version>3.2.0</version>
             <executions>
                 <execution>
                     <id>stork-launcher</id>
@@ -204,36 +210,6 @@ Maven
         ...
     </plugins>
 </build>
-```
-
-Gradle (to be released soon)
-
-* task name: storkLauncher
-```groovy
-storkLaunchers {
-    outputDirectory = new File("${project.buildDir}", "stork")
-    inputFiles = ["${project.projectDir}/src/main/launchers".toString()]
-    launcher {
-        name =  "test1"
-        displayName = "test1"
-        domain = "com.fizzed.stork.test1"
-        shortDescription = "desc"
-        type = "DAEMON"
-        platforms = ["LINUX","MAC_OSX"]
-        workingDirMode = "APP_HOME"
-        mainClass="class"
-    }
-    launcher {
-            name =  "test2"
-            displayName = "test2"
-            domain = "com.fizzed.stork.test1"
-            shortDescription = "desc"
-            type = "DAEMON"
-            platforms = ["LINUX","MAC_OSX"]
-            workingDirMode = "APP_HOME"
-            mainClass="class"
-        }
-}
 ```
 
 To customize, the following properties are supported:
@@ -361,7 +337,7 @@ Maven
         <plugin>
             <groupId>com.fizzed</groupId>
             <artifactId>stork-maven-plugin</artifactId>
-            <version>3.0.0</version>
+            <version>3.2.0</version>
             <executions>
                 <execution>
                     <id>stork-assembly</id>
@@ -462,7 +438,7 @@ Download blaze:
 Create a `blaze.conf` file:
 
     blaze.dependencies = [
-      "com.fizzed:stork-deploy:3.0.0"
+      "com.fizzed:stork-deploy:3.2.0"
     ]
 
 Create a `blaze.java` file:
@@ -527,6 +503,6 @@ and eventually contributing to this project.
 
 ## License
 
-Copyright (C) 2020 Fizzed, Inc.
+Copyright (C) 2025 Fizzed, Inc.
 
 This work is licensed under the Apache License, Version 2.0. See LICENSE for details.

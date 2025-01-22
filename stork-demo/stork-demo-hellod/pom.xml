@@ -9,22 +9,17 @@
     <parent>
         <groupId>com.fizzed</groupId>
         <artifactId>stork</artifactId>
-        <version>3.1.4-SNAPSHOT</version>
+        <version>3.2.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     
     <properties>
         <main.java.package>com.fizzed.stork.demo.hellod</main.java.package>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
             <!-- eating our own dog food :-) -->
             <plugin>
                 <groupId>com.fizzed</groupId>

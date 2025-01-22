@@ -1,13 +1,12 @@
-
-import com.fizzed.blaze.Config;
-import com.fizzed.blaze.Contexts;
 import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Systems.exec;
-import org.slf4j.Logger;
+import static com.fizzed.blaze.Systems.which;
 
-public class blaze {
-    private final Logger log = Contexts.logger();
-    private final Config config = Contexts.config();
+import com.fizzed.blaze.project.PublicBlaze;
+
+import java.nio.file.Path;
+
+public class blaze extends PublicBlaze {
     
     private String getTestHost(boolean required) {
         String host = config.value("host").getOr("");
@@ -39,7 +38,7 @@ public class blaze {
     public void demo_launcher() {
         exec("mvn", "package", "-DskipTests=true", "-am", "-pl", "stork-cli").run();
         exec("stork-launcher", "-o", "target/stork-fake", "stork-cli/src/main/launchers")
-            .path("stork-cli/target/stork/bin")
+            .workingDir("stork-cli/target/stork/bin")
             .run();
     }
     
@@ -47,25 +46,25 @@ public class blaze {
         String host = getTestHost(true);
         exec("mvn", "package", "-DskipTests=true", "-am", "-pl", "stork-cli").run();
         exec("stork-deploy", "-a", "stork-deploy/src/test/resources/fixtures/hello-console-1.2.4.tar.gz", "vagrant+ssh://" + host)
-            .path("stork-cli/target/stork/bin")
+            .workingDir("stork-cli/target/stork/bin")
             .run();
     }
     
     public void demo_hellod() {
         exec("mvn", "package", "-DskipTests=true", "-am", "-pl", "stork-demo/stork-demo-hellod").run();
-        exec("stork-demo-hellod", "--run")
+        final Path command = which("stork-demo-hellod")
             .path("stork-demo/stork-demo-hellod/target/stork/bin")
-            .arg("8888")
-            .arg("a")
-            .arg("b")
-            .env("EXTRA_JAVA_ARGS", "-Da=1")
+            .run();
+        exec(command, "--run")
             .run();
     }
     
     public void demo_dropwizard() {
         exec("mvn", "package", "-DskipTests=true", "-am", "-pl", "stork-demo/stork-demo-dropwizard").run();
-        exec("stork-demo-dropwizard", "--run")
+        final Path command = which("stork-demo-dropwizard")
             .path("stork-demo/stork-demo-dropwizard/target/stork/bin")
+            .run();
+        exec(command, "--run")
             .env("EXTRA_JAVA_ARGS", "-Da=1")
             .run();
     }
